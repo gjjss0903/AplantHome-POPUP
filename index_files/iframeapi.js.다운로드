@@ -1,0 +1,49 @@
+var tag_obj = document.getElementsByTagName("dbcartapi");
+var onlyform_use=0;
+var group_string="";
+for (var rof=0;rof<tag_obj.length;rof++)
+{
+	var tag_obj_Element = tag_obj[rof];
+	var landing_key = tag_obj_Element.getAttribute("landing");
+	var onlyform_use = tag_obj_Element.getAttribute("onlyform");
+	var group_string = tag_obj_Element.getAttribute("g");
+}
+
+var Frame_script_jquery_Element;
+Frame_script_jquery_Element = document.createElement("script");
+Frame_script_jquery_Element.setAttribute("type", "text/javascript");
+Frame_script_jquery_Element.setAttribute("src", "//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js");
+tag_obj_Element.appendChild(Frame_script_jquery_Element);
+
+var Frame_script_resize_Element;
+Frame_script_resize_Element = document.createElement("script");
+Frame_script_resize_Element.setAttribute("type", "text/javascript");
+Frame_script_resize_Element.setAttribute("src", "//"+landing_key+".dbcart.net/js/iframeResizer.min.js");
+tag_obj_Element.appendChild(Frame_script_resize_Element);
+
+var onlyform_value="";
+if(onlyform_use)		onlyform_value="&onlyform=1";
+var groups_value="";
+if(group_string)		groups_value="&g="+group_string;
+
+var Frame_Element;
+Frame_Element = document.createElement("iframe");
+Frame_Element.frameBorder = 0;
+Frame_Element.width = "100%";
+Frame_Element.height = "500px";
+Frame_Element.id = "dbcartapi_frame_"+landing_key ;
+Frame_Element.scrolling = "no";
+Frame_Element.setAttribute("src", "//"+landing_key+".dbcart.net/?dbcartapi=1"+onlyform_value+groups_value);
+Frame_Element.style.minWidth = "100%";
+tag_obj_Element.appendChild(Frame_Element);
+
+Frame_Element.onload = function(evt) {
+    if (evt.target.src != '') { 
+		frame2_obj = document.getElementById("dbcartapi_frame_"+landing_key);
+		  iFrameResize({
+			log: false,
+			inPageLinks: false,
+			onResized: function(messageData) {}
+		  },frame2_obj);
+	}
+}
